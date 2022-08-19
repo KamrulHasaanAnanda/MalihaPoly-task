@@ -9,15 +9,24 @@ function Dropdowns({
   ImageName,
   changeImage,
   headerBackground,
+  unitId,
+  itemId,
 }) {
   let imgSrc = ImageName === title ? up : dropdown;
 
+  let changeValues = () => {
+    console.log("title", title);
+    console.log("unitId", unitId);
+    console.log("itemId", itemId);
+
+    changeImage(title, unitId, itemId);
+  };
   return (
     <div className="dropdown-div">
       <div
         className="dropdown-header"
         style={{ background: headerBackground }}
-        onClick={() => changeImage(title)}
+        onClick={changeValues}
       >
         <Text fontSize={"18px"} fontWeight="600">
           {title}
@@ -26,10 +35,12 @@ function Dropdowns({
       </div>
       <div
         className={
-          ImageName === title ? "dropdown-items show" : "dropdown-items"
+          ImageName === title && unitId === itemId
+            ? "dropdown-items show"
+            : "dropdown-items"
         }
       >
-        {children}
+        {unitId === itemId && children}
       </div>
     </div>
   );

@@ -18,10 +18,12 @@ function ItemInformationlist({ changeModule, getItems, items }) {
       subCategory: "",
       subCategories: "",
       units: "",
+      unitId: "",
+      subCatId: "",
     }
   );
 
-  console.log("items :>> ", items);
+  // console.log("items :>> ", items);
   const getUnits = async () => {
     const response = await ItemServices.getUnit();
     setState({ units: response });
@@ -56,9 +58,11 @@ function ItemInformationlist({ changeModule, getItems, items }) {
     );
   };
 
-  let changeImage = (title) => {
+  let changeImage = (title, Id, itemId) => {
     setState(
-      state.ImageName === title ? { ImageName: "" } : { ImageName: title }
+      state.ImageName === title
+        ? { ImageName: "" }
+        : { ImageName: title, unitId: Id, itemId: itemId }
     );
   };
 
@@ -88,8 +92,9 @@ function ItemInformationlist({ changeModule, getItems, items }) {
   let itemsView = "";
   if (items?.length > 0) {
     itemsView = items.map((item) => {
+      let unitId = item._id;
       return (
-        <tr>
+        <tr key={item._id}>
           <td>
             <Dropdowns
               title={"Item types"}
@@ -151,8 +156,10 @@ function ItemInformationlist({ changeModule, getItems, items }) {
                 <div className="drop">
                   <Dropdowns
                     title={"Unit"}
+                    unitId={unitId}
                     ImageName={state.ImageName}
                     changeImage={changeImage}
+                    itemId={item._id}
                     headerBackground={"#673ab7"}
                   >
                     {unitItems}
